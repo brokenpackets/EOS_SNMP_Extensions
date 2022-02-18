@@ -37,12 +37,11 @@ Logging.logD( id="SNMP_EXTENSION",
 
 def grabTag():
    switch = Server( "unix:/var/run/command-api.sock" )
-   response = switch.runCmds( 1, [ COMMAND ])[0]['output']
+   response = switch.runCmds( 1, [ COMMAND ])[0]['assets']['switch']['tag']
    return response
 
 def run_command():
-   tagParse = grabTag()
-   tag = tagParse['assets']['switch']['tag']
+   tag = grabTag()
    oid = '0.1.'
    pp.add_str(oid+'1.' + '1', tag)
 
