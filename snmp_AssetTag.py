@@ -1,20 +1,17 @@
 #!/usr/bin/python -u
-# Script to be used on Jericho-based platforms, gathers data from 'show cpu counters
-#     summary', and parses out the DropPkt field for CoppSystemIpMcast and
-#     CoppSystemIpMcastMiss to determine CoPP related drops for Multicast.
-# 1. Copy this script to /mnt/flash (Note: Make sure script is marked as executable)
+# To-Do: Update doc
 # 2. Copy snmp_passpersist.py to /mnt/flash
 # 3. Enable protocol unix-socket on eapi with:
 #      management api http-commands
 #         no shutdown
 #         protocol unix-socket
 # 4. Configure snmp to respond to the custom OID
-#        snmp-server extension .1.3.6.1.4.1.8072.2.1000 flash:/mcast-snmpexample.py
+#        snmp-server extension .1.3.6.1.4.1.8072.2.1000 flash:/snmp_AssetTag.py
 #
 # Example Output:
 # sudo snmpwalk -v2c -c public -m localhost .1.3.6.1.4.1.8072.2.1000
 #    NET-SNMP-EXAMPLES-MIB::netSnmpExamples.1000.0.1.1.1 = INTEGER: 0
-#    NET-SNMP-EXAMPLES-MIB::netSnmpExamples.1000.0.1.1.2 = INTEGER: 0
+
 
 import snmp_passpersist as snmp
 import sys, os, errno
