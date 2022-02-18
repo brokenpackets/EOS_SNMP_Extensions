@@ -1,5 +1,6 @@
 #!/usr/bin/python -u
-# To-Do: Update doc
+# Directions for use:
+# 1. Copy snmp_AssetTag.py script to /mnt/flash
 # 2. Copy snmp_passpersist.py to /mnt/flash
 # 3. Enable protocol unix-socket on eapi with:
 #      management api http-commands
@@ -9,8 +10,8 @@
 #        snmp-server extension .1.3.6.1.4.1.8072.2.1000 flash:/snmp_AssetTag.py
 #
 # Example Output:
-# sudo snmpwalk -v2c -c public -m localhost .1.3.6.1.4.1.8072.2.1000
-#    NET-SNMP-EXAMPLES-MIB::netSnmpExamples.1000.0.1.1.1 = INTEGER: 0
+# sudo snmpwalk -v2c -c public localhost .1.3.6.1.4.1.8072.2.1000
+#    NET-SNMP-EXAMPLES-MIB::netSnmpExamples.1000.0.1.1.1 = STRING: "Lab-Garage"
 
 
 import snmp_passpersist as snmp
