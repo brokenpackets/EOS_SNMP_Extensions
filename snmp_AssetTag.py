@@ -2,16 +2,20 @@
 # Directions for use:
 # 1. Copy snmp_AssetTag.py script to /mnt/flash
 # 2. Copy snmp_passpersist.py to /mnt/flash
-# 3. Enable protocol unix-socket on eapi with:
+# 3. Make sure to chmod with execute permission for both files:
+#    - chmod 770 /mnt/flash/snmp_AssetTag.py
+#    - chmod 770 /mnt/flash/snmp_passpersist.py
+# 4. Enable protocol unix-socket on eapi with:
 #      management api http-commands
 #         no shutdown
 #         protocol unix-socket
-# 4. Configure snmp to respond to the custom OID
+# 5. Configure snmp to respond to the custom OID
 #        snmp-server extension .1.3.6.1.4.1.8072.2.1000 flash:/snmp_AssetTag.py
 #
 # Example Output:
 # sudo snmpwalk -v2c -c public localhost .1.3.6.1.4.1.8072.2.1000
 #    NET-SNMP-EXAMPLES-MIB::netSnmpExamples.1000.0.1.1.1 = STRING: "Lab-Garage"
+#    NET-SNMP-EXAMPLES-MIB::netSnmpExamples.1000.0.1.1.2 = STRING: "JPEXXXXXXX"
 
 
 import snmp_passpersist as snmp
@@ -38,13 +42,16 @@ Logging.logD( id="SNMP_EXTENSION",
 
 def grabTag():
    switch = Server( "unix:/var/run/command-api.sock" )
-   response = switch.runCmds( 1, [ COMMAND ])[0]['assets']['switch']['tag']
+   response = switch.runCmds( 1, [ COMMAND ])[0]['assets']
    return response
 
 def run_command():
-   tag = grabTag()
+   tagPreparse = grabTag()
+   serial = tagPreparse['switch']['serial']
+   tag = tagPreparse['switch']['tag']
    oid = '0.1.'
    pp.add_str(oid+'1.' + '1', tag)
+   pp.add_str(oid+'1.' + '2', serial)
 
 def main():
    global pp
